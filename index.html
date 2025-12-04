@@ -3,20 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <title>我的博客</title>
-    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            font-family: "Segoe UI", sans-serif;
+            padding: 30px;
+            max-width: 700px;
+            margin: auto;
+            line-height: 1.7;
+        }
+        h1 { margin-bottom: 20px; }
+        .post { margin-bottom: 12px; }
+        .date { color: #777; margin-left: 6px; font-size: 14px; }
+        a { color: #0066cc; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
 </head>
 <body>
-<div class="container">
-    <h1>我的博客</h1>
-    <p class="subtitle">记录一些想法、学习和生活</p>
+<h1>我的博客</h1>
+<div id="posts">正在加载文章列表...</div>
 
-    <div class="post-list">
-        <a class="post" href="html/post/25.12.4post.html">
-            <h2>第一篇文章标题</h2>
-            <p>文章简介：这是一个测试</p>
-            <span class="date">2025-12-04</span>
-        </a>
-    </div>
-</div>
+<script>
+    fetch('posts/posts.json')
+        .then(res => res.json())
+        .then(posts => {
+            const container = document.getElementById('posts');
+            container.innerHTML = ''; // 清空占位文字
+            // 按日期倒序排列
+            posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+            posts.forEach(post => {
+                const div = document.createElement('div');
+                div.className = 'post';
+                div.innerHTML = `<a href="posts/${post.file}">${post.title}</a>
+                           <span class="date">${post.date}</span>`;
+                container.appendChild(div);
+            });
+        })
+        .catch(err => {
+            console.error(err);
+            document.getElementById('posts').innerHTML = '文章列表加载失败';
+        });
+</script>
 </body>
 </html>
