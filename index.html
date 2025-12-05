@@ -2,46 +2,352 @@
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <title>我的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的数字花园</title>
     <style>
-        body {
-            font-family: "Segoe UI", sans-serif;
-            padding: 30px;
-            max-width: 700px;
-            margin: auto;
-            line-height: 1.7;
+        /* --- 1. 全局变量与重置 --- */
+        :root {
+            --bg-body: #f4f6f8;
+            --bg-card: #ffffff;
+            --primary: #222222;
+            --accent: #0066cc;
+            --text-main: #333333;
+            --text-sub: #666666;
+            --border: #e1e4e8;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            --radius: 12px;
         }
-        h1 { margin-bottom: 20px; }
-        .post { margin-bottom: 12px; }
-        .date { color: #777; margin-left: 6px; font-size: 14px; }
-        a { color: #0066cc; text-decoration: none; }
-        a:hover { text-decoration: underline; }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .app-container {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 40px;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        /* --- 左侧侧边栏 --- */
+        aside {
+            position: sticky;
+            top: 40px;
+            height: fit-content;
+        }
+
+        .profile-card {
+            background: var(--bg-card);
+            padding: 30px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .avatar {
+            width: 80px;
+            height: 80px;
+            background: #ddd;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            background-image: url('image/tourweint.png');
+            background-size: cover;
+        }
+
+        .profile-name { font-size: 1.2rem; font-weight: 700; margin-bottom: 5px; }
+        .profile-bio { font-size: 0.9rem; color: var(--text-sub); }
+
+        .category-nav {
+            background: var(--bg-card);
+            padding: 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .nav-title {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: #999;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .filter-btn {
+            display: block;
+            width: 100%;
+            text-align: left;
+            background: none;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 8px;
+            color: var(--text-sub);
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            margin-bottom: 5px;
+        }
+
+        .filter-btn:hover { background-color: #f0f0f0; color: var(--primary); }
+        .filter-btn.active { background-color: var(--primary); color: #fff; font-weight: 500; }
+
+        /* --- 右侧内容区 --- */
+        main { display: flex; flex-direction: column; min-height: 100%; }
+
+        h2 { font-size: 1.5rem; margin-bottom: 20px; font-weight: 700; }
+
+        .post-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 60px; /* 给底部 footer 留位置 */
+        }
+
+        .post-card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid transparent;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .post-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            border-color: var(--accent);
+        }
+
+        .card-meta {
+            font-size: 0.8rem;
+            color: #999;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .card-tag {
+            background: #eef2f7;
+            color: var(--accent);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.75rem;
+        }
+
+        .post-title {
+            font-size: 1.15rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 700;
+            display: block;
+        }
+
+        .post-desc {
+            font-size: 0.9rem;
+            color: var(--text-sub);
+            margin-bottom: 20px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .read-more {
+            font-size: 0.85rem;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* --- 新增：主页底部 Footer --- */
+        .site-footer {
+            margin-top: auto; /* 推到底部 */
+            padding-top: 40px;
+            border-top: 1px solid #e1e4e8;
+            color: #888;
+            font-size: 0.9rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .footer-col h3 {
+            font-size: 1rem;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .footer-links a {
+            display: block;
+            color: #666;
+            text-decoration: none;
+            margin-bottom: 8px;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover { color: var(--accent); }
+
+        .copyright {
+            grid-column: 1 / -1;
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.85rem;
+            color: #aaa;
+        }
+
+        /* 移动端适配 */
+        @media (max-width: 768px) {
+            .app-container { grid-template-columns: 1fr; gap: 20px; }
+            aside { position: static; }
+            .filter-btn { display: inline-block; width: auto; margin-right: 5px; }
+            .site-footer { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
-<h1>我的博客</h1>
-<div id="posts">正在加载文章列表...</div>
+
+<div class="app-container">
+    <aside>
+        <div class="profile-card">
+            <div class="avatar"></div>
+            <div class="profile-name">我的博客</div>
+            <div class="profile-bio">这是我的数字花园</div>
+        </div>
+
+        <nav class="category-nav">
+            <div class="nav-title">文章分类</div>
+            <div id="category-list">
+                <!-- JS 会自动在这里生成按钮 -->
+            </div>
+        </nav>
+    </aside>
+
+    <main>
+        <h2 id="list-title">最新文章</h2>
+        <div id="posts-container" class="post-grid">
+            正在加载文章...
+        </div>
+
+        <!-- 新增：主页底部区域 -->
+        <footer class="site-footer">
+            <div class="footer-col">
+                <h3>关于本站</h3>
+                <p>这里是我记录学习和生活的地方。没有复杂的算法推荐，只有纯粹的文字和代码。</p>
+            </div>
+
+            <div class="footer-col">
+                <h3>友情链接 / 社交</h3>
+                <div class="footer-links">
+                    <a href="#" target="_blank">Github (我的代码)</a>
+                    <a href="mailto:your-email@example.com">Email (联系我)</a>
+                    <a href="https://developer.mozilla.org/zh-CN/" target="_blank">MDN Web 文档</a>
+                </div>
+            </div>
+
+            <div class="copyright">
+                &copy; 2024 My Static Blog. All rights reserved.
+            </div>
+        </footer>
+    </main>
+</div>
 
 <script>
-    fetch('posts/posts.json')
-        .then(res => res.json())
-        .then(posts => {
-            const container = document.getElementById('posts');
-            container.innerHTML = ''; // 清空占位文字
-            // 按日期倒序排列
-            posts.sort((a, b) => new Date(b.date) - new Date(a.date));
-            posts.forEach(post => {
-                const div = document.createElement('div');
-                div.className = 'post';
-                div.innerHTML = `<a href="posts/${post.file}">${post.title}</a>
-                           <span class="date">${post.date}</span>`;
-                container.appendChild(div);
+    let allPostsData = [];
+
+    document.addEventListener('DOMContentLoaded', () => {
+        fetch('posts/posts.json')
+            .then(response => {
+                if (!response.ok) throw new Error('网络响应不正常');
+                return response.json();
+            })
+            .then(data => initApp(data))
+            .catch(error => {
+                console.error('加载失败:', error);
+                document.getElementById('posts-container').innerHTML =
+                    `<p style="color:red">加载文章失败，请检查 posts.json 是否存在。</p>`;
             });
-        })
-        .catch(err => {
-            console.error(err);
-            document.getElementById('posts').innerHTML = '文章列表加载失败';
+    });
+
+    function initApp(posts) {
+        // 按日期倒序
+        allPostsData = posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+        renderCategories(allPostsData);
+        renderPosts(allPostsData);
+    }
+
+    function renderCategories(posts) {
+        const categoryContainer = document.getElementById('category-list');
+        const categories = ['全部', ...new Set(posts.map(p => p.category))];
+
+        categoryContainer.innerHTML = '';
+
+        categories.forEach((cat, index) => {
+            const btn = document.createElement('button');
+            btn.className = `filter-btn ${index === 0 ? 'active' : ''}`;
+            btn.textContent = cat;
+            btn.onclick = () => filterPosts(cat, btn);
+            categoryContainer.appendChild(btn);
         });
+    }
+
+    function filterPosts(category, clickedBtn) {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        clickedBtn.classList.add('active');
+
+        document.getElementById('list-title').textContent = category === '全部' ? '最新文章' : category;
+
+        const filtered = category === '全部'
+            ? allPostsData
+            : allPostsData.filter(post => post.category === category);
+
+        renderPosts(filtered);
+    }
+
+    function renderPosts(posts) {
+        const container = document.getElementById('posts-container');
+        container.innerHTML = '';
+
+        if (posts.length === 0) {
+            container.innerHTML = '<p style="color:#999">该分类下暂无文章。</p>';
+            return;
+        }
+
+        posts.forEach(post => {
+            const card = document.createElement('div');
+            card.className = 'post-card';
+
+            card.innerHTML = `
+                <div>
+                    <div class="card-meta">
+                        <span>${post.date}</span>
+                        <span class="card-tag">${post.category}</span>
+                    </div>
+                    <a href="posts/${post.file}" class="post-title">${post.title}</a>
+                    <div class="post-desc">${post.desc}</div>
+                </div>
+                <a href="posts/${post.file}" class="read-more">阅读全文 &rarr;</a>
+            `;
+            container.appendChild(card);
+        });
+    }
 </script>
+
 </body>
 </html>
