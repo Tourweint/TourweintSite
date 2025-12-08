@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/favicon/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/favicon/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon/favicon-96x96.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <title>静态网页部署</title>
+    <link rel="stylesheet" href="/css/posts.css">
+</head>
+<body>
+
+<nav class="nav-bar">
+    <!-- 注意这里是 ../index.html，表示返回上一级目录 -->
+    <a href="../../index.html" class="back-link">← 返回首页</a>
+</nav>
+
+<article>
+    <header>
+        <h1>静态网页部署</h1>
+        <div class="meta">
+            <span>发布于 0000-00-00</span> ·
+            <span>分类：</span>
+            <div class="meta-categories" id="categories">
+                <!-- JS 会在这里自动生成分类标签 -->
+            </div>
+        </div>
+    </header>
+
+    <div class="content">
+        <p>这是一些我在部署静态网页遇到的一些问题</p>
+
+        <h2>静态网页并不需要自购VPS</h2>
+        <p>高中毕业我还觉得没有云服务器或是VPS都没办法，现在可以先写着静态网页练手了，但是大部分也是由AI完成
+        这个静态网页写博客的缺点就是在IDE里写文档，一不小心容易把其他的代码弄乱。
+        </p>
+
+        <h2>静态托管服务商对比</h2>
+        <p>现在只用了cloudflare的托管，因为属于国外的网站，所以不是很快，以后用了别的在补充吧</p>
+
+        <h2>域名问题</h2>
+        <p>这个还没研究但是感觉有必要，国内外还不一样的政策</p>
+
+    </div>
+
+    <!-- 新增：文章底部导航区域 -->
+    <div class="post-nav" id="post-nav">
+        <!-- JS 会在这里自动填入 上一篇/下一篇 -->
+        <span style="color:#ccc">正在加载导航...</span>
+    </div>
+</article>
+
+<script src="../../js/post-utils.js"></script>
+
+</body>
+</html>

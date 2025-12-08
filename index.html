@@ -3,7 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的数字花园</title>
+    <link rel="icon" href="/favicon/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/favicon/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon/favicon-96x96.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <title>欢迎来到我的数字花园</title>
     <style>
         /* --- 1. 全局变量与重置 --- */
         :root {
@@ -58,10 +65,9 @@
         .avatar {
             width: 80px;
             height: 80px;
-            background: #ddd;
             border-radius: 50%;
             margin: 0 auto 15px;
-            background-image: url('image/tourweint.png');
+            background: #ddd url('image/tourweint.png');
             background-size: cover;
         }
 
@@ -101,6 +107,56 @@
 
         .filter-btn:hover { background-color: #f0f0f0; color: var(--primary); }
         .filter-btn.active { background-color: var(--primary); color: #fff; font-weight: 500; }
+
+        /* --- 搜索功能样式 --- */
+        .search-box {
+            background: var(--bg-card);
+            padding: 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            background: #fff;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+        }
+
+        .search-results-info {
+            font-size: 0.9rem;
+            color: var(--text-sub);
+            margin-bottom: 20px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border-left: 3px solid var(--accent);
+        }
+
+        .search-highlight {
+            background: #fff3cd;
+            padding: 1px 2px;
+            border-radius: 2px;
+        }
+
+        .no-results {
+            text-align: center;
+            color: var(--text-sub);
+            padding: 40px;
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
 
         /* --- 右侧内容区 --- */
         main { display: flex; flex-direction: column; min-height: 100%; }
@@ -149,6 +205,12 @@
             font-size: 0.75rem;
         }
 
+        .card-tags {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
         .post-title {
             font-size: 1.15rem;
             margin-bottom: 10px;
@@ -166,6 +228,9 @@
             -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
             overflow: hidden;
+            /* 备用方案：不支持line-clamp的浏览器 */
+            max-height: 4.2em; /* 约3行的截断 */
+            line-height: 1.4;
         }
 
         .read-more {
@@ -226,8 +291,21 @@
     <aside>
         <div class="profile-card">
             <div class="avatar"></div>
-            <div class="profile-name">我的博客</div>
-            <div class="profile-bio">这是我的数字花园</div>
+            <div class="profile-name">多鸣的博客</div>
+            <div class="profile-bio">多元发声，掷地有声</div>
+            <div class="profile-bio">心有热爱，必有回响</div>
+        </div>
+
+
+        <div class="search-box">
+            <div class="nav-title">搜索文章</div>
+            <label for="search-input">搜索文章</label>
+            <input
+                type="text" 
+                class="search-input" 
+                placeholder="搜索标题、描述或分类..." 
+                id="search-input"
+            >
         </div>
 
         <nav class="category-nav">
@@ -244,24 +322,24 @@
             正在加载文章...
         </div>
 
-        <!-- 新增：主页底部区域 -->
+        <!-- 主页底部区域 -->
         <footer class="site-footer">
             <div class="footer-col">
                 <h3>关于本站</h3>
-                <p>这里是我记录学习和生活的地方。没有复杂的算法推荐，只有纯粹的文字和代码。</p>
+                <p>这里是我记录学习和生活的地方，没有复杂的算法推荐，只有纯粹的文字和代码，如有侵权立即联系我以删除。</p>
             </div>
 
             <div class="footer-col">
                 <h3>友情链接 / 社交</h3>
                 <div class="footer-links">
-                    <a href="#" target="_blank">Github (我的代码)</a>
-                    <a href="mailto:your-email@example.com">Email (联系我)</a>
+                    <a href="https://github.com/Tourweint" target="_blank">GitHub (我的代码仓库)</a>
+                    <a href="mailto:647575404@qq.com">Email：647575404@qq.com (联系我)</a>
                     <a href="https://developer.mozilla.org/zh-CN/" target="_blank">MDN Web 文档</a>
                 </div>
             </div>
 
             <div class="copyright">
-                &copy; 2024 My Static Blog. All rights reserved.
+                &copy; 2025 Tourweint's Static Blog. All rights reserved.
             </div>
         </footer>
     </main>
@@ -290,11 +368,137 @@
 
         renderCategories(allPostsData);
         renderPosts(allPostsData);
+        
+        // 初始化搜索功能
+        initSearch();
+        
+        // 检查URL参数，支持分类跳转
+        handleUrlParams();
+    }
+
+    // --- 搜索功能 ---
+    function initSearch() {
+        const searchInput = document.getElementById('search-input');
+        let searchTimeout;
+
+        searchInput.addEventListener('input', (e) => {
+            clearTimeout(searchTimeout);
+            const query = e.target.value.trim();
+            
+            // 防抖处理
+            searchTimeout = setTimeout(() => {
+                performSearch(query);
+            }, 300);
+        });
+
+        // 按ESC清空搜索
+        searchInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                searchInput.value = '';
+                performSearch('');
+            }
+        });
+    }
+
+    function performSearch(query) {
+        const resultsInfo = document.getElementById('results-info') || createResultsInfo();
+        const listTitle = document.getElementById('list-title');
+        
+        if (query === '') {
+            // 清空搜索，显示所有文章
+            listTitle.textContent = '最新文章';
+            resultsInfo.style.display = 'none';
+            renderPosts(allPostsData);
+            resetCategories();
+            return;
+        }
+
+        // 执行搜索
+        const searchResults = searchPosts(query);
+        
+        // 更新标题和结果信息
+        listTitle.textContent = '搜索结果';
+        resultsInfo.textContent = `找到 ${searchResults.length} 篇关于 "${query}" 的文章`;
+        resultsInfo.style.display = 'block';
+        
+        // 显示搜索结果
+        renderPosts(searchResults, query);
+        
+        // 重置分类按钮
+        resetCategories();
+    }
+
+    function searchPosts(query) {
+        const lowercaseQuery = query.toLowerCase();
+        
+        return allPostsData.filter(post => {
+            // 搜索标题、描述、分类
+            const categories = Array.isArray(post.category) ? post.category : [post.category];
+            const categoryMatch = categories.some(cat => cat.toLowerCase().includes(lowercaseQuery));
+            
+            return (
+                post.title.toLowerCase().includes(lowercaseQuery) ||
+                post.desc.toLowerCase().includes(lowercaseQuery) ||
+                categoryMatch
+            );
+        });
+    }
+
+    function createResultsInfo() {
+        const info = document.createElement('div');
+        info.id = 'results-info';
+        info.className = 'search-results-info';
+        info.style.display = 'none';
+        
+        const container = document.getElementById('posts-container');
+        container.parentNode.insertBefore(info, container);
+        
+        return info;
+    }
+
+    function resetCategories() {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        document.querySelector('.filter-btn').classList.add('active');
+    }
+
+    // --- URL参数处理 ---
+    function handleUrlParams() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const categoryParam = urlParams.get('category');
+        
+        if (categoryParam) {
+            // 延迟执行，确保分类按钮已渲染
+            setTimeout(() => {
+                const categoryButtons = document.querySelectorAll('.filter-btn');
+                const targetButton = Array.from(categoryButtons).find(btn => 
+                    btn.textContent === decodeURIComponent(categoryParam)
+                );
+                
+                if (targetButton) {
+                    // 触发分类筛选
+                    targetButton.click();
+                    
+                    // 滚动到文章列表
+                    document.getElementById('posts-container').scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'start' 
+                    });
+                }
+            }, 100);
+        }
     }
 
     function renderCategories(posts) {
         const categoryContainer = document.getElementById('category-list');
-        const categories = ['全部', ...new Set(posts.map(p => p.category))];
+        
+        // 提取所有分类（支持单个分类和多个分类）
+        const allCategories = new Set();
+        posts.forEach(post => {
+            const categories = Array.isArray(post.category) ? post.category : [post.category];
+            categories.forEach(cat => allCategories.add(cat));
+        });
+        
+        const categories = ['全部', ...Array.from(allCategories).sort()];
 
         categoryContainer.innerHTML = '';
 
@@ -315,17 +519,29 @@
 
         const filtered = category === '全部'
             ? allPostsData
-            : allPostsData.filter(post => post.category === category);
+            : allPostsData.filter(post => {
+                const categories = Array.isArray(post.category) ? post.category : [post.category];
+                return categories.includes(category);
+            });
 
         renderPosts(filtered);
     }
 
-    function renderPosts(posts) {
+    function renderPosts(posts, searchQuery = '') {
         const container = document.getElementById('posts-container');
         container.innerHTML = '';
 
         if (posts.length === 0) {
-            container.innerHTML = '<p style="color:#999">该分类下暂无文章。</p>';
+            if (searchQuery) {
+                container.innerHTML = `
+                    <div class="no-results">
+                        <h3>未找到相关文章</h3>
+                        <p>没有找到与 "${searchQuery}" 相关的文章，请尝试其他关键词。</p>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = '<p style="color:#999">该分类下暂无文章。</p>';
+            }
             return;
         }
 
@@ -333,19 +549,37 @@
             const card = document.createElement('div');
             card.className = 'post-card';
 
+            // 如果有搜索查询，高亮匹配的文本
+            const highlightedTitle = searchQuery ? highlightText(post.title, searchQuery) : post.title;
+            const highlightedDesc = searchQuery ? highlightText(post.desc, searchQuery) : post.desc;
+            
+            // 处理多个分类
+            const categories = Array.isArray(post.category) ? post.category : [post.category];
+            const categoryTags = categories.map(cat => {
+                const highlightedCat = searchQuery ? highlightText(cat, searchQuery) : cat;
+                return `<span class="card-tag">${highlightedCat}</span>`;
+            }).join('');
+
             card.innerHTML = `
                 <div>
                     <div class="card-meta">
                         <span>${post.date}</span>
-                        <span class="card-tag">${post.category}</span>
+                        <div class="card-tags">${categoryTags}</div>
                     </div>
-                    <a href="posts/${post.file}" class="post-title">${post.title}</a>
-                    <div class="post-desc">${post.desc}</div>
+                    <a href="posts/${post.file}" class="post-title">${highlightedTitle}</a>
+                    <div class="post-desc">${highlightedDesc}</div>
                 </div>
                 <a href="posts/${post.file}" class="read-more">阅读全文 &rarr;</a>
             `;
             container.appendChild(card);
         });
+    }
+
+    function highlightText(text, query) {
+        if (!query) return text;
+        
+        const regex = new RegExp(`(${query})`, 'gi');
+        return text.replace(regex, '<span class="search-highlight">$1</span>');
     }
 </script>
 

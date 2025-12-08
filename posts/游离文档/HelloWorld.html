@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/favicon/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/favicon/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon/favicon-96x96.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <title>Hello World!</title>
+    <link rel="stylesheet" href="/css/posts.css">
+</head>
+<body>
+
+<nav class="nav-bar">
+    <!-- 使用绝对路径确保无论在哪个层级都能正确返回首页 -->
+    <a href="../../index.html" class="back-link">← 返回首页</a>
+</nav>
+
+<article>
+    <header>
+        <h1>我的第一篇博客：你好世界</h1>
+        <div class="meta">
+            <span>发布于 0000-00-00</span> ·
+            <span>分类：</span>
+            <div class="meta-categories" id="categories">
+                <!-- JS 会在这里自动生成分类标签 -->
+            </div>
+        </div>
+    </header>
+
+    <div class="content">
+        <p class="no-indent">简单的静态网页。</p>
+
+        <h2>Hello World</h2>
+
+        <p class="no-indent">今天天气真不错，我终于搭建好了自己的静态博客。
+            虽然没有数据库，但是运行速度飞快！</p>
+        <p class="no-indent">感谢阅读。</p>
+    </div>
+
+    <!-- 新增：文章底部导航区域 -->
+    <div class="post-nav" id="post-nav">
+        <!-- JS 会在这里自动填入 上一篇/下一篇 -->
+        <span style="color:#ccc">正在加载导航...</span>
+    </div>
+</article>
+
+<script src="../../js/post-utils.js"></script>
+
+</body>
+</html>
