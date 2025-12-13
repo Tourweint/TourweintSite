@@ -10,7 +10,7 @@
     <link rel="manifest" href="/favicon/site.webmanifest">
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
-    <title>欢迎来到我的数字花园</title>
+    <title>文章标题</title>
     <link rel="stylesheet" href="/css/posts.css">
 </head>
 <body>
@@ -22,18 +22,39 @@
 
 <article>
     <header>
-        <h1>大标题</h1>
+        <h1>文章标题</h1>
+        <!-- （标题下方、正文上方插入速记卡） -->
+        <div class="quick-card">
+            <h3>避免网络骂战·1分钟速记卡</h3>
+            <p><strong>核心根源</strong>：抽象层级升级+主观类比泛滥</p>
+            <p><strong>关键逻辑</strong>：具体话题 = 低冲突，抽象话题 = 高冲突</p>
+            <h3>3步脱身法：</h3>
+            <p>1. <strong>停</strong>：终止类比联想</p>
+            <p>2. <strong>拉</strong>：拉回具体事实</p>
+            <p>3. <strong>退</strong>：升级则终止讨论</p>
+            <p class="example">（例：争论"晒猫"→拉回"评论区是否违规"→不恋战）</p>
+        </div>
         <div class="meta">
-            <span>发布于 0000-00-00</span> ·
+            <span>发布于 0000-00-00</span>
             <span>分类：</span>
             <div class="meta-categories" id="categories">
                 <!-- JS 会在这里自动生成分类标签 -->
+            </div>
+            <div class="reading-stats">
+                <div class="stat-item">
+                    <span class="stat-icon">📝</span>
+                    <span class="stat-value" id="word-count">计算中...</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-icon">⏱️</span>
+                    <span class="stat-value" id="reading-time">计算中...</span>
+                </div>
             </div>
         </div>
     </header>
 
     <div class="content">
-        <<p>
+        <p>
         文章转写自博主：
         <a href="https://www.douyin.com/user/MS4wLjABAAAAA5FjC4Ml0qL_-UDrxiuiLhI58He7wO0gMKJamTXAD38?from_tab_name=main" target="_blank">花大钱</a>
         &nbsp 原视频链接：
@@ -47,9 +68,13 @@
         <p>代码示例：<code>console.log('Hello World');</code></p>
 
         <a href="">
-            <img src = "/image/tourweint.png"  alt="这是示例图"/>
+            <img src="/image/示例图片.png" alt="示例图">
         </a>
 
+        <div class="quote-special">
+        这里是特殊引用示例，适合诗句和名言
+        </div>
+        
         <p>这里是结尾。感谢阅读。</p>
     </div>
 

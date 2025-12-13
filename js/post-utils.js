@@ -114,8 +114,55 @@ function getRelativePath(targetFile, currentDir) {
     return '../' + targetFile;
 }
 
+// --- 计算字数和阅读时间 ---
+function calculateReadingStats() {
+    const content = document.querySelector('.content');
+    if (!content) return;
+    
+    // 获取纯文本内容
+    const text = content.innerText || content.textContent;
+    
+    // 计算中文字符数（包括标点符号）
+    const chineseChars = (text.match(/[\u4e00-\u9fff\u3000-\u303f\uff00-\uffef]/g) || []).length;
+    
+    // 计算英文单词数
+    const englishWords = (text.match(/[a-zA-Z]+/g) || []).length;
+    
+    // 总字数（中文按字符计，英文按单词计）
+    const totalWordCount = chineseChars + englishWords;
+    
+    // 计算阅读时间（中文字符：300字/分钟，英文单词：200词/分钟）
+    const chineseReadingTime = chineseChars / 300;
+    const englishReadingTime = englishWords / 200;
+    const totalReadingTime = Math.ceil(chineseReadingTime + englishReadingTime);
+    
+    // 更新显示
+    updateReadingStatsDisplay(totalWordCount, totalReadingTime);
+}
+
+// --- 更新阅读统计显示 ---
+function updateReadingStatsDisplay(wordCount, readingTime) {
+    const wordCountElement = document.getElementById('word-count');
+    const readingTimeElement = document.getElementById('reading-time');
+    
+    if (wordCountElement) {
+        wordCountElement.textContent = `本文字数：${wordCount}字`;
+    }
+    
+    if (readingTimeElement) {
+        if (readingTime < 1) {
+            readingTimeElement.textContent = '建议阅读时间：不足1分钟';
+        } else {
+            readingTimeElement.textContent = `建议阅读时间：${readingTime}分钟`;
+        }
+    }
+}
+
 // --- 初始化文章页面 ---
 function initPostPage() {
+    // 计算阅读统计
+    calculateReadingStats();
+    
     fetch('../posts.json')
         .then(res => {
             if (!res.ok) {

@@ -7,7 +7,7 @@ body {
     color: #333;
     max-width: 800px;
     margin: 0 auto;
-    padding: 40px 20px;
+    padding: 35px 20px;
     background-color: #f9f9f9;
 }
 
@@ -27,7 +27,7 @@ body {
 /* 文章容器样式 */
 article {
     background: white;
-    padding: 40px;
+    padding: 20px 40px 40px;
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
     margin-bottom: 30px;
@@ -35,15 +35,18 @@ article {
 
 /* 标题层级样式 */
 h1 {
+    margin-top: 0;
     margin-bottom: 10px;
     font-size: 2rem;
     color: #111;
 }
 h2 {
+    margin-top: 0;
     margin-bottom: 15px;
     font-size: 1.5rem;
 }
 h3 {
+    margin-top: 0;
     margin-bottom: 12px;
     font-size: 1.2rem;
 }
@@ -140,6 +143,18 @@ blockquote {
     margin-bottom: 20px;
 }
 
+/* 特殊引用样式 - 用于诗句等 */
+.quote-special {
+    border-left: 3px solid #ccc;
+    background: #f8f9fa;
+    color: #666;
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 4px;
+    font-style: italic;
+    line-height: 1.6;
+}
+
 /* 链接样式 */
 .content a {
     color: #58a6ff;
@@ -168,6 +183,82 @@ blockquote {
 
 .content a:hover::after {
     width: 100%;
+}
+
+/* 加粗文字样式 */
+.content strong,
+.content b {
+    font-weight: 600;
+    color: #1a1a1a;
+    position: relative;
+}
+
+/* 高亮文本样式 */
+.highlight {
+    color: #4285f4;
+    font-weight: bold;
+}
+
+/* 速记卡样式 */
+.quick-card {
+    background: #f5f5f5;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    padding: 12px;
+    margin: 8px 0;
+}
+
+.quick-card h3 {
+    margin: 0 0 8px 0;
+    color: #000000;
+    font-size: 1.2rem;
+}
+
+.quick-card p {
+    margin-bottom: 8px;
+}
+
+.quick-card p:last-child {
+    margin-bottom: 0;
+}
+
+.quick-card .example {
+    font-size: 12px;
+    color: #666;
+}
+
+/* 阅读统计模块 */
+.reading-stats {
+    display: inline-flex;
+    align-items: center;
+    gap: 20px;
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.stat-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.stat-icon {
+    font-size: 0.9rem;
+}
+
+.stat-value {
+    font-weight: 400;
+    color: #666;
+}
+
+/* 移动端适配 */
+@media (max-width: 600px) {
+    .reading-stats {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        font-size: 0.8rem;
+    }
 }
 
 /* 为移动端优化 */
